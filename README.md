@@ -12,6 +12,8 @@ Add the following to your Cargo.toml file:
 ### Credits
 
 - Inspired by [Lost Terminal](https://lostterminal.com) by Namtao Productions.
+  - Original space station journaling file released by Tristram Oaten under CC0 1.0 Universal
+    - YouTube: [No Boilerplate](https://github.com/0atman/noboilerplate) -> 8 | Building a space station in Rust
 - Rust section in global .gitignore taken from
   [github/gitignore](https://github.com/github/gitignore) under the
   [CC0-1.0 License](https://choosealicense.com/licenses/cc0-1.0/).
