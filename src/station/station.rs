@@ -19,14 +19,21 @@ use crate::section::section::Section;
 pub struct Station {
     pub name: StationName,
     pub version: u8,
+    pub mission_day: u16,
     pub sections: Vec<Section>
 }
 
 #[derive(Debug, RandGen, Display)]
 pub enum StationName {
-    Akira,     California, Daedalus,
-    Eisenberg, Intrepid,   Miranda,
-    Nova,      Reliant,    Sagan
+    Akira,
+    California,
+    Daedalus,
+    Eisenberg,
+    Intrepid,
+    Miranda,
+    Nova,
+    Reliant,
+    Sagan
 }
 
 impl Station {
@@ -34,6 +41,7 @@ impl Station {
         Station {
             name: random(),
             version: random(),
+            mission_day: 0,
             sections: (0..10)
                 .map(|_| random())
                 .collect()
@@ -64,6 +72,8 @@ impl Station {
     }
 
     pub fn new_day(&mut self) {
+        self.increment_mission_day();
+        println!("{}", self.mission_day_display());
         self.break_something();
     }
 
@@ -80,5 +90,14 @@ impl Station {
 
     pub fn status(&self) {
         dbg!(&self);
+    }
+
+    fn increment_mission_day(&mut self) {
+        self.mission_day = self.mission_day.saturating_add(1);
+    }
+
+    fn mission_day_display(&self) -> String {
+        let mission_day = self.mission_day;
+        return format!("Mission Day {mission_day}");
     }
 }
