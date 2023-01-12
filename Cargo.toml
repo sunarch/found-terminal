@@ -31,7 +31,7 @@ path = "src/lib.rs"
 
 [dependencies]
 inquire = "0.5.2"
-strum = "0.24.1"
-strum_macros = "0.24.3"
 rand = "0.8.5"
 rand_derive2 = "0.1.18"
+strum = "0.24.1"
+strum_macros = "0.24.3"

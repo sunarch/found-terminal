@@ -4,12 +4,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-use rand_derive2::RandGen;
-use strum_macros::Display;
+// dependencies
 use rand::random;
 use rand::Rng;
 use rand::thread_rng;
+use rand_derive2::RandGen;
+use strum_macros::Display;
 
+// project
 use crate::section::section::Section;
 
 

@@ -7,7 +7,7 @@ Available as a Crate on crates.io: [found-terminal](https://crates.io/crates/fou
 
 Add the following to your Cargo.toml file:
 `found-terminal = "X.Y.Z"`
-(see latest version on Crate page)
+(see the latest version on Crate page)
 
 ### Credits
 

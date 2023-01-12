@@ -1,20 +1,17 @@
+// -*- coding: utf-8, vim: expandtab:ts=4 -*-
+
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 // Original version of this file released by Tristram Oaten under CC0 1.0 Universal
 // https://github.com/0atman/noboilerplate -> 8 | Building a space station in Rust
 
-#![allow(dead_code)]
-#![allow(unused_variables)]
-#![allow(unused_imports)]
-#![allow(unused_mut)]
-
-use strum_macros::Display;
-use strum_macros::EnumString;
+// lib
 use std::str::FromStr;
+
+// dependencies
 use inquire::Text;
-use rand_derive2::RandGen;
-use rand::random;
-use rand::Rng;
-use rand::thread_rng;
-use rand::prelude::SliceRandom;
 use inquire::Select;
 
 // project
@@ -96,6 +93,6 @@ fn repair(broken_section: String, station: &mut Station) {
     station.sections[broken_index].active = true;
 }
 
-fn science(working_section: String, station: &mut Station) {
+fn science(_working_section: String, station: &mut Station) {
     station.break_something();
 }
