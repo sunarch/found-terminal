@@ -22,14 +22,14 @@ use inquire::Select;
 use found_terminal::journal::journal::Journal;
 
 
-#[derive(Debug, RandGen)]
+#[derive(RandGen)]
 struct Station {
     name: Name,
     version: u8,
     sections: Vec<Section>
 }
 
-#[derive(Debug, RandGen, Display)]
+#[derive(RandGen, Display)]
 enum Name {
     Akira,     California, Daedalus,
     Eisenberg, Intrepid,   Miranda,
@@ -101,13 +101,13 @@ impl Station {
     }
 }
 
-#[derive(Debug, RandGen, Eq, PartialEq)]
+#[derive(RandGen, Eq, PartialEq)]
 struct Section {
     name: SectionName,
     active: bool,
 }
 
-#[derive(Debug, RandGen, Display, EnumString)]
+#[derive(RandGen, Display, EnumString)]
 #[derive(Eq, PartialEq)]
 enum SectionName {
     AstroScience,     Solar,       Antenna,

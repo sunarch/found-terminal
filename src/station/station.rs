@@ -15,7 +15,7 @@ use strum_macros::Display;
 use crate::section::section::Section;
 
 
-#[derive(Debug, RandGen)]
+#[derive(RandGen)]
 pub struct Station {
     pub name: StationName,
     pub version: u8,
@@ -23,7 +23,7 @@ pub struct Station {
     pub sections: Vec<Section>
 }
 
-#[derive(Debug, RandGen, Display)]
+#[derive(RandGen, Display)]
 pub enum StationName {
     Akira,
     California,

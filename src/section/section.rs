@@ -10,13 +10,13 @@ use strum_macros::Display;
 use strum_macros::EnumString;
 
 
-#[derive(Debug, RandGen, Eq, PartialEq)]
+#[derive(RandGen, Eq, PartialEq)]
 pub struct Section {
     pub name: SectionName,
     pub active: bool,
 }
 
-#[derive(Debug, RandGen, Display, EnumString)]
+#[derive(RandGen, Display, EnumString)]
 #[derive(Eq, PartialEq)]
 pub enum SectionName {
     Antenna,
