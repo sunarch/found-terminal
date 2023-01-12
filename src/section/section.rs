@@ -19,7 +19,13 @@ pub struct Section {
 #[derive(Debug, RandGen, Display, EnumString)]
 #[derive(Eq, PartialEq)]
 pub enum SectionName {
-    AstroScience,     Solar,       Antenna,
-    RadiationMirrors, Sleeping,    NuclearGenerator,
-    Galley,           Transponder, Tracking
+    Antenna,
+    AstroScience,
+    Galley,
+    NuclearGenerator,
+    RadiationMirrors,
+    Sleeping,
+    Solar,
+    Tracking,
+    Transponder,
 }
