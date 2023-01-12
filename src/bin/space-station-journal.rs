@@ -88,6 +88,10 @@ impl Station {
     fn status(&self) {
         dbg!(&self);
     }
+
+    fn name_display(&self) -> String {
+        return format!("Station \"{}\" v{}", &self.name, &self.version);
+    }
 }
 
 #[derive(Debug, RandGen, Eq, PartialEq)]
@@ -107,9 +111,12 @@ enum SectionName {
 
 fn main() {
     let mut station = Station::new();
+    let station_name_display = station.name_display();
+    println!("{}", station_name_display);
+
     let mut journal = Journal::new(
         "STATION LOG".to_string(),
-        station.name.to_string()
+        station_name_display
     );
 
     loop {

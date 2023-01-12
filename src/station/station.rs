@@ -92,6 +92,10 @@ impl Station {
         dbg!(&self);
     }
 
+    pub fn name_display(&self) -> String {
+        return format!("Station \"{}\" v{}", &self.name, &self.version);
+    }
+
     fn increment_mission_day(&mut self) {
         self.mission_day = self.mission_day.saturating_add(1);
     }
