@@ -89,7 +89,14 @@ impl Station {
     }
 
     pub fn status(&self) {
-        dbg!(&self);
+        println!("{:-^80}", " [ BEGIN: STATION STATUS ] ");
+        println!("{}", &self.name_display());
+        println!("{:-^10} {} {:-^10}", "", "[ Sections ]", "");
+        for section in &self.sections {
+            let active = if section.active {"   OK   "} else {"INACTIVE"};
+            println!("[{}] {}", active, section.name);
+        }
+        println!("{:-^80}", " [ END: STATION STATUS ] ");
     }
 
     pub fn name_display(&self) -> String {
