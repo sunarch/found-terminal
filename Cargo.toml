@@ -1,0 +1,37 @@
+[package]
+name = "found-terminal"
+version = "0.1.0"
+authors = ["András Németh <sunarch@protonmail.com>"]
+edition = "2021"
+description = "Found Terminal"
+documentation = "https://docs.rs/found-terminal"
+readme = "README.md"
+homepage = "https://codeberg.org/sunarch/found-terminal"
+repository = "https://codeberg.org/sunarch/found-terminal"
+license = "MPL-2.0"
+keywords = [
+    "Found Terminal",
+    "terminal",
+    "Lost Terminal",
+]
+categories = [
+    "command-line-utilities",
+    "games",
+    "network-programming",
+    "simulation"
+]
+exclude = [".idea/"]
+default-run = "space-station"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "found_terminal"
+path = "src/lib.rs"
+
+[dependencies]
+inquire = "0.5.2"
+strum = "0.24.1"
+strum_macros = "0.24.3"
+rand = "0.8.5"
+rand_derive2 = "0.1.18"
