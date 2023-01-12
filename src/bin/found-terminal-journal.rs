@@ -17,22 +17,26 @@ use inquire::Select;
 // project
 use found_terminal::station::station::Station;
 use found_terminal::section::section::SectionName;
+use found_terminal::journal::journal::Journal;
 
 
 fn main() {
     let mut station = Station::new();
-    let mut station_log = vec![];
+    let mut journal = Journal::new(
+        "STATION LOG".to_string(),
+        station.name.to_string()
+    );
 
     loop {
-        if !day(&mut station, &mut station_log) {
+        if !day(&mut station, &mut journal) {
             break
         };
     }
 
-    dbg!(station_log);
+    journal.print();
 }
 
-fn day(station: &mut Station, station_log: &mut Vec<String>) -> bool {
+fn day(station: &mut Station, journal: &mut Journal) -> bool {
     let days_left = station.days_left();
 
     if days_left < 1 {
@@ -42,7 +46,7 @@ fn day(station: &mut Station, station_log: &mut Vec<String>) -> bool {
 
     println!("{days_left} UNTIL FINAL TRANSMISSION");
 
-    station_log.push(Text::new("Enter your log:")
+    journal.add_entry(Text::new("Enter your log:")
         .prompt()
         .unwrap()
     );

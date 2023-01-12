@@ -19,6 +19,8 @@ use rand::Rng;
 use rand::thread_rng;
 use inquire::Select;
 
+use found_terminal::journal::journal::Journal;
+
 
 #[derive(Debug, RandGen)]
 struct Station {
@@ -104,20 +106,22 @@ enum SectionName {
 
 
 fn main() {
-
     let mut station = Station::new();
-    let mut station_log = vec![];
+    let mut journal = Journal::new(
+        "STATION LOG".to_string(),
+        station.name.to_string()
+    );
 
     loop {
-        if !day(&mut station, &mut station_log) {
+        if !day(&mut station, &mut journal) {
             break;
         }
     }
 
-    dbg!(station_log);
+    journal.print();
 }
 
-fn day(station: &mut Station, station_log: &mut Vec<String>) -> bool {
+fn day(station: &mut Station, journal: &mut Journal) -> bool {
     let days_left = station.days_left();
 
     if days_left < 1 {
@@ -127,7 +131,7 @@ fn day(station: &mut Station, station_log: &mut Vec<String>) -> bool {
 
     println!("{days_left} UNTIL FINAL TRANSMISSION");
 
-    station_log.push(Text::new("Enter your log:")
+    journal.add_entry(Text::new("Enter your log:")
         .prompt()
         .unwrap()
     );
@@ -156,7 +160,7 @@ fn day(station: &mut Station, station_log: &mut Vec<String>) -> bool {
         &_ => panic!("test"),
     }
 
-    true // continue
+    return true;
 }
 
 fn menu(items: &[String]) -> String {
