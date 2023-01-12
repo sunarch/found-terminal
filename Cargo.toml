@@ -10,9 +10,11 @@ homepage = "https://codeberg.org/sunarch/found-terminal"
 repository = "https://codeberg.org/sunarch/found-terminal"
 license = "MPL-2.0"
 keywords = [
-    "Found Terminal",
+    "lost-terminal",
     "terminal",
-    "Lost Terminal",
+    "space-station",
+    "journal",
+    "network"
 ]
 categories = [
     "command-line-utilities",
