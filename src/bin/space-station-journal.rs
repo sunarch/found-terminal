@@ -79,9 +79,9 @@ impl Station {
         let mut broken_section = &mut self.sections[broken_index];
         if broken_section.active {
             broken_section.active = false;
-            println!("(Section-FAILURE {})", &broken_section.name);
+            println!("(SECTION-FAILURE {})", &broken_section.name);
         } else {
-            println!("(sections OK)");
+            println!("(SECTIONS OK)");
         }
     }
 

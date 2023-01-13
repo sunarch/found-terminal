@@ -44,7 +44,7 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
     let days_left = station.days_left();
 
     if days_left < 1 {
-        println!("(END-TRANSMISSION)");
+        println!("(end-transmission)");
         return false;
     }
 
