@@ -10,7 +10,7 @@ use crate::station::station::Station;
 // module
 use crate::terminalisp::symbols;
 
-pub fn output_station_status(station: &Station, show_details: bool, show_sections: bool) {
+pub fn tl_station_status(station: &Station, show_details: bool, show_sections: bool) {
     print!("(station");
 
     if show_details {
@@ -39,4 +39,8 @@ pub fn output_station_status(station: &Station, show_details: bool, show_section
         println!();
     }
     println!(")");
+}
+
+pub fn tl_until_final_transmission(count: u8) {
+    println!("(until-final-transmission {})", count);
 }

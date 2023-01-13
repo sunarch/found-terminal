@@ -38,14 +38,11 @@ fn main() {
 }
 
 fn day(station: &mut Station, journal: &mut Journal) -> bool {
-    let days_left = station.days_left();
 
-    if days_left < 1 {
+    if station.is_shut_down() {
         println!("(end-transmission)");
         return false;
     }
-
-    println!("{days_left} UNTIL FINAL TRANSMISSION");
 
     journal.add_entry(Text::new("Enter your log:")
         .prompt()
