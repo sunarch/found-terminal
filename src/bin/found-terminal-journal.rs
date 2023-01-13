@@ -22,13 +22,10 @@ use found_terminal::journal::journal::Journal;
 
 fn main() {
     let mut station = Station::new();
-    let station_name_display = station.name_display();
-    println!("{}", station_name_display);
-    println!("{}", station.mission_day_display());
 
     let mut journal = Journal::new(
         "STATION LOG".to_string(),
-        station_name_display
+        station.name_display()
     );
 
     loop {

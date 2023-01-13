@@ -12,6 +12,7 @@ use rand_derive2::RandGen;
 
 // project
 use crate::section::section::Section;
+use crate::terminalisp::station::output_station_status;
 
 // module
 use crate::station::name::StationName;
@@ -27,14 +28,18 @@ pub struct Station {
 
 impl Station {
     pub fn new() -> Self {
-        Station {
+        let station = Station {
             name: random(),
             version: random(),
             mission_day: 0,
             sections: (0..10)
                 .map(|_| random())
                 .collect()
-        }
+        };
+
+        output_station_status(&station, true, false);
+
+        return station;
     }
 
     pub fn days_left(&self) -> usize {
@@ -62,7 +67,7 @@ impl Station {
 
     pub fn new_day(&mut self) {
         self.increment_mission_day();
-        println!("{}", self.mission_day_display());
+        output_station_status(&self, false, false);
         self.break_something();
     }
 
@@ -78,14 +83,7 @@ impl Station {
     }
 
     pub fn status(&self) {
-        println!("{:-^80}", " [ BEGIN: STATION STATUS ] ");
-        println!("{}", &self.name_display());
-        println!("{:-^10} {} {:-^10}", "", "[ Sections ]", "");
-        for section in &self.sections {
-            let active = if section.active {"   OK   "} else {"INACTIVE"};
-            println!("[{}] {}", active, section.name);
-        }
-        println!("{:-^80}", " [ END: STATION STATUS ] ");
+        output_station_status(&self, true, true);
     }
 
     pub fn name_display(&self) -> String {
