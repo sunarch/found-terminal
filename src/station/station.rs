@@ -13,7 +13,8 @@ use rand_derive2::RandGen;
 // project
 use crate::section::section::Section;
 use crate::terminalisp::station::{tl_station_status,
-                                  tl_until_final_transmission};
+                                  tl_until_final_transmission,
+                                  tl_end_transmission};
 
 // module
 use crate::station::name::StationName;
@@ -55,6 +56,12 @@ impl Station {
         return self.days_left() < {1 as u8};
     }
 
+    pub fn shut_down(&mut self) {
+        for section in &mut self.sections {
+            section.active = false;
+        }
+    }
+
     pub fn working_sections(&self) -> Vec<String> {
         self.sections
             .iter()
@@ -73,9 +80,14 @@ impl Station {
 
     pub fn new_day(&mut self) {
         self.increment_mission_day();
-        tl_station_status(&self, false, false);
-        self.break_something();
-        tl_until_final_transmission(self.days_left() as u8);
+        if self.is_shut_down() {
+            tl_end_transmission();
+        }
+        else {
+            tl_station_status(&self, false, false);
+            self.break_something();
+            tl_until_final_transmission(self.days_left() as u8);
+        }
     }
 
     pub fn break_something(&mut self) {

@@ -44,3 +44,7 @@ pub fn tl_station_status(station: &Station, show_details: bool, show_sections: b
 pub fn tl_until_final_transmission(count: u8) {
     println!("(until-final-transmission {})", count);
 }
+
+pub fn tl_end_transmission() {
+    println!("(end-transmission)");
+}

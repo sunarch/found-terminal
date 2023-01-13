@@ -39,38 +39,44 @@ fn main() {
 
 fn day(station: &mut Station, journal: &mut Journal) -> bool {
 
-    if station.is_shut_down() {
-        println!("(end-transmission)");
-        return false;
-    }
+    journal.add_entry(format!("Mission Day {}", station.mission_day));
 
-    journal.add_entry(Text::new("Enter your log:")
+    let journal_prompt = format!("Log for Mission Day {}:", station.mission_day);
+    journal.add_entry(Text::new(journal_prompt.as_str())
         .prompt()
         .unwrap()
     );
 
-    match menu(&[
-        "NEW DAY".into(),
-        "STATUS".into(),
-        "POWERDOWN".into()
-    ]).as_str() {
-        "NEW DAY" => {
-            station.new_day();
-            match menu(&["REPAIR".into(), "SCIENCE".into()]).as_str() {
-                "REPAIR" => {
-                    repair(menu(&station.broken_sections()), station);
-                    return true;
-                },
-                "SCIENCE" => {
-                    science(menu(&station.working_sections()), station);
-                    return true;
-                }
-                &_ => panic!(),
+    station.new_day();
+
+    if station.is_shut_down() {
+        return false;
+    }
+
+    loop {
+        match menu(&[
+            "STATUS".into(),
+            "REPAIR".into(),
+            "SCIENCE".into(),
+            "NEW DAY".into(),
+            "POWER DOWN".into(),
+        ]).as_str() {
+            "STATUS" => station.status(),
+            "REPAIR" => {
+                repair(menu(&station.broken_sections()), station);
+                break;
+            },
+            "SCIENCE" => {
+                science(menu(&station.working_sections()), station);
+                break;
             }
-        },
-        "STATUS" => station.status(),
-        "POWERDOWN" => return false,
-        &_ => panic!("test"),
+            "NEW DAY" => {break;}
+            "POWER DOWN" => {
+                station.shut_down();
+                break;
+            },
+            &_ => panic!(),
+        }
     }
 
     return true;
