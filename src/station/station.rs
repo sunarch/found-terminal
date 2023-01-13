@@ -92,12 +92,12 @@ impl Station {
         return format!("Station \"{}\" v{}", &self.name, &self.version);
     }
 
-    fn increment_mission_day(&mut self) {
-        self.mission_day = self.mission_day.saturating_add(1);
-    }
-
-    fn mission_day_display(&self) -> String {
+    pub fn mission_day_display(&self) -> String {
         let mission_day = self.mission_day;
         return format!("Mission Day {mission_day}");
+    }
+
+    fn increment_mission_day(&mut self) {
+        self.mission_day = self.mission_day.saturating_add(1);
     }
 }
