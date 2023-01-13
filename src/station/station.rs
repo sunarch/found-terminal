@@ -9,10 +9,12 @@ use rand::random;
 use rand::Rng;
 use rand::thread_rng;
 use rand_derive2::RandGen;
-use strum_macros::Display;
 
 // project
 use crate::section::section::Section;
+
+// module
+use crate::station::name::StationName;
 
 
 #[derive(RandGen)]
@@ -21,19 +23,6 @@ pub struct Station {
     pub version: u8,
     pub mission_day: u16,
     pub sections: Vec<Section>
-}
-
-#[derive(RandGen, Display)]
-pub enum StationName {
-    Akira,
-    California,
-    Daedalus,
-    Eisenberg,
-    Intrepid,
-    Miranda,
-    Nova,
-    Reliant,
-    Sagan
 }
 
 impl Station {
