@@ -7,16 +7,12 @@
 // Original version of this file released by Tristram Oaten under CC0 1.0 Universal
 // https://github.com/0atman/noboilerplate -> 8 | Building a space station in Rust
 
-// lib
-use std::str::FromStr;
-
 // dependencies
-use inquire::Text;
-use inquire::Select;
+use inquire::{Select, Text};
 
 // project
 use found_terminal::station::station::Station;
-use found_terminal::section::section::SectionName;
+use found_terminal::station::components::{Repair, PowerDown};
 use found_terminal::journal::journal::Journal;
 
 
@@ -61,21 +57,21 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
             "NEW DAY".into(),
             "POWER DOWN".into(),
         ]).as_str() {
-            "STATUS" => station.status(),
+            "STATUS" => { println!("{}", station.status(0, true, true)) },
             "REPAIR" => {
-                repair(menu(&station.broken_sections()), station);
+                station.repair();
                 break;
             },
             "SCIENCE" => {
-                science(menu(&station.working_sections()), station);
-                break;
-            }
-            "NEW DAY" => {break;}
-            "POWER DOWN" => {
-                station.shut_down();
+                station.science();
                 break;
             },
-            &_ => panic!(),
+            "NEW DAY" => { break; },
+            "POWER DOWN" => {
+                station.power_down();
+                break;
+            },
+            &_ => unreachable!(),
         }
     }
 
@@ -86,21 +82,4 @@ fn menu(items: &[String]) -> String {
     Select::new("MENU", items.to_vec())
         .prompt()
         .unwrap()
-}
-
-fn repair(broken_section: String, station: &mut Station) {
-    let section = SectionName::from_str(
-        broken_section.as_str()
-    ).unwrap();
-
-    let broken_index = station.sections
-        .iter()
-        .position(|m| m.name == section)
-        .expect("Section not found.");
-
-    station.sections[broken_index].active = true;
-}
-
-fn science(_working_section: String, station: &mut Station) {
-    station.break_something();
 }
