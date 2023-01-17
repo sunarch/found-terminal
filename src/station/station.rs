@@ -229,6 +229,10 @@ impl Station {
 }
 
 impl Repair for Station {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.sections_comm.repair_display(),
@@ -240,24 +244,12 @@ impl Repair for Station {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.sections_comm.active_modules() < self.sections_comm.total_modules() {
-            options.push(prompts[0].clone())
-        }
-        if self.sections_crew.active_modules() < self.sections_crew.total_modules() {
-            options.push(prompts[1].clone())
-        }
-        if self.sections_maneuver.active_modules() < self.sections_maneuver.total_modules() {
-            options.push(prompts[2].clone())
-        }
-        if self.sections_misc.active_modules() < self.sections_misc.total_modules() {
-            options.push(prompts[3].clone())
-        }
-        if self.sections_power.active_modules() < self.sections_power.total_modules() {
-            options.push(prompts[4].clone())
-        }
-        if self.sections_research.active_modules() < self.sections_research.total_modules() {
-            options.push(prompts[5].clone())
-        }
+        if self.sections_comm.repairable()     { options.push(prompts[0].clone()) }
+        if self.sections_crew.repairable()     { options.push(prompts[1].clone()) }
+        if self.sections_maneuver.repairable() { options.push(prompts[2].clone()) }
+        if self.sections_misc.repairable()     { options.push(prompts[3].clone()) }
+        if self.sections_power.repairable()    { options.push(prompts[4].clone()) }
+        if self.sections_research.repairable() { options.push(prompts[5].clone()) }
 
         let chosen: String = tli_menu("Select section category to repair:", options);
         match chosen {

@@ -132,15 +132,17 @@ impl BreakSomething for MiscCategory {
 }
 
 impl Repair for MiscCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_cargo_bay.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_cargo_bay.active_modules() < self.section_cargo_bay.total_modules() {
-            options.push(prompts[0].clone())
-        }
+        if self.section_cargo_bay.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {

@@ -132,15 +132,17 @@ impl BreakSomething for CrewCategory {
 }
 
 impl Repair for CrewCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_crew_module.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_crew_module.active_modules() < self.section_crew_module.total_modules() {
-            options.push(prompts[0].clone())
-        }
+        if self.section_crew_module.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {

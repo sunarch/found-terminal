@@ -152,6 +152,10 @@ impl BreakSomething for ResearchCategory {
 }
 
 impl Repair for ResearchCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_astronomy.repair_display(),
@@ -160,15 +164,9 @@ impl Repair for ResearchCategory {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_astronomy.active_modules() < self.section_astronomy.total_modules() {
-            options.push(prompts[0].clone())
-        }
-        if self.section_greenhouse.active_modules() < self.section_greenhouse.total_modules() {
-            options.push(prompts[1].clone())
-        }
-        if self.section_weather_observation.active_modules() < self.section_weather_observation.total_modules() {
-            options.push(prompts[2].clone())
-        }
+        if self.section_astronomy.repairable()           { options.push(prompts[0].clone()) }
+        if self.section_greenhouse.repairable()          { options.push(prompts[1].clone()) }
+        if self.section_weather_observation.repairable() { options.push(prompts[2].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {

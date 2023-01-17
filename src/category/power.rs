@@ -172,6 +172,10 @@ impl BreakSomething for PowerCategory {
 }
 
 impl Repair for PowerCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_fossil_power.repair_display(),
@@ -182,21 +186,11 @@ impl Repair for PowerCategory {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_fossil_power.active_modules() < self.section_fossil_power.total_modules() {
-            options.push(prompts[0].clone())
-        }
-        if self.section_fusion_power.active_modules() < self.section_fusion_power.total_modules() {
-            options.push(prompts[1].clone())
-        }
-        if self.section_nuclear_power.active_modules() < self.section_nuclear_power.total_modules() {
-            options.push(prompts[2].clone())
-        }
-        if self.section_radiation_power.active_modules() < self.section_radiation_power.total_modules() {
-            options.push(prompts[3].clone())
-        }
-        if self.section_solar_power.active_modules() < self.section_solar_power.total_modules() {
-            options.push(prompts[4].clone())
-        }
+        if self.section_fossil_power.repairable()    { options.push(prompts[0].clone()) }
+        if self.section_fusion_power.repairable()    { options.push(prompts[1].clone()) }
+        if self.section_nuclear_power.repairable()   { options.push(prompts[2].clone()) }
+        if self.section_radiation_power.repairable() { options.push(prompts[3].clone()) }
+        if self.section_solar_power.repairable()     { options.push(prompts[4].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {

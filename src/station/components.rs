@@ -45,6 +45,7 @@ pub trait BreakSomething {
 }
 
 pub trait Repair {
+    fn repairable(&self) -> bool;
     fn repair(&mut self);
 }
 

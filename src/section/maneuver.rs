@@ -112,15 +112,17 @@ impl BreakSomething for BasicManeuverSection {
 }
 
 impl Repair for BasicManeuverSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_reaction_control_system.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_reaction_control_system.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_reaction_control_system.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -237,6 +239,10 @@ impl BreakSomething for ManeuverWithDockingSection {
 }
 
 impl Repair for ManeuverWithDockingSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_reaction_control_system.repair_display(),
@@ -244,12 +250,8 @@ impl Repair for ManeuverWithDockingSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_reaction_control_system.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_docking_system.active() {
-            options.push(prompts[1].clone())
-        }
+        if self.module_reaction_control_system.repairable() { options.push(prompts[0].clone()) }
+        if self.module_docking_system.repairable()          { options.push(prompts[1].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

@@ -122,6 +122,10 @@ impl BreakSomething for CargoBaySection {
 }
 
 impl Repair for CargoBaySection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_airlock.repair_display(),
@@ -130,15 +134,9 @@ impl Repair for CargoBaySection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_airlock.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_cargo_bay.active() {
-            options.push(prompts[1].clone())
-        }
-        if self.module_docking_system.active() {
-            options.push(prompts[2].clone())
-        }
+        if self.module_airlock.repairable()        { options.push(prompts[0].clone()) }
+        if self.module_cargo_bay.repairable()      { options.push(prompts[1].clone()) }
+        if self.module_docking_system.repairable() { options.push(prompts[2].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

@@ -117,6 +117,10 @@ impl BreakSomething for FossilPowerSection {
 }
 
 impl Repair for FossilPowerSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_combustion_turbine_generator.repair_display(),
@@ -124,12 +128,8 @@ impl Repair for FossilPowerSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_combustion_turbine_generator.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_fossil_fuel_storage.active() {
-            options.push(prompts[1].clone())
-        }
+        if self.module_combustion_turbine_generator.repairable() { options.push(prompts[0].clone()) }
+        if self.module_fossil_fuel_storage.repairable()          { options.push(prompts[1].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -253,6 +253,10 @@ impl BreakSomething for FusionPowerSection {
 }
 
 impl Repair for FusionPowerSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_fusion_reactor.repair_display(),
@@ -261,15 +265,9 @@ impl Repair for FusionPowerSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_fusion_reactor.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_steam_turbine_generator.active() {
-            options.push(prompts[1].clone())
-        }
-        if self.module_fusion_component_storage.active() {
-            options.push(prompts[2].clone())
-        }
+        if self.module_fusion_reactor.repairable()           { options.push(prompts[0].clone()) }
+        if self.module_steam_turbine_generator.repairable()  { options.push(prompts[1].clone()) }
+        if self.module_fusion_component_storage.repairable() { options.push(prompts[2].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -400,6 +398,10 @@ impl BreakSomething for NuclearPowerSection {
 }
 
 impl Repair for NuclearPowerSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_nuclear_fuel_storage.repair_display(),
@@ -409,18 +411,10 @@ impl Repair for NuclearPowerSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_nuclear_fuel_storage.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_nuclear_reactor.active() {
-            options.push(prompts[1].clone())
-        }
-        if self.module_steam_turbine_generator.active() {
-            options.push(prompts[2].clone())
-        }
-        if self.module_nuclear_waste_storage.active() {
-            options.push(prompts[3].clone())
-        }
+        if self.module_nuclear_fuel_storage.repairable()    { options.push(prompts[0].clone()) }
+        if self.module_nuclear_reactor.repairable()         { options.push(prompts[1].clone()) }
+        if self.module_steam_turbine_generator.repairable() { options.push(prompts[2].clone()) }
+        if self.module_nuclear_waste_storage.repairable()   { options.push(prompts[3].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -538,15 +532,17 @@ impl BreakSomething for RadiationPowerSection {
 }
 
 impl Repair for RadiationPowerSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_radiation_mirrors.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_radiation_mirrors.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_radiation_mirrors.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -658,15 +654,17 @@ impl BreakSomething for SolarPowerSection {
 }
 
 impl Repair for SolarPowerSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_solar_panel.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_solar_panel.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_solar_panel.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

@@ -117,6 +117,10 @@ impl BreakSomething for AstronomySection {
 }
 
 impl Repair for AstronomySection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_astronomy_lab.repair_display(),
@@ -124,12 +128,8 @@ impl Repair for AstronomySection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_astronomy_lab.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_mainframe.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_astronomy_lab.repairable() { options.push(prompts[0].clone()) }
+        if self.module_mainframe.repairable()     { options.push(prompts[1].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -254,6 +254,10 @@ impl BreakSomething for GreenhouseSection {
 }
 
 impl Repair for GreenhouseSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_greenhouse.repair_display(),
@@ -263,18 +267,10 @@ impl Repair for GreenhouseSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_greenhouse.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_mainframe.active() {
-            options.push(prompts[1].clone())
-        }
-        if self.module_airlock.active() {
-            options.push(prompts[2].clone())
-        }
-        if self.module_temperature_control.active() {
-            options.push(prompts[3].clone())
-        }
+        if self.module_greenhouse.repairable()          { options.push(prompts[0].clone()) }
+        if self.module_mainframe.repairable()           { options.push(prompts[1].clone()) }
+        if self.module_airlock.repairable()             { options.push(prompts[2].clone()) }
+        if self.module_temperature_control.repairable() { options.push(prompts[3].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -393,6 +389,10 @@ impl BreakSomething for WeatherObservationSection {
 }
 
 impl Repair for WeatherObservationSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_weather_observation.repair_display(),
@@ -400,12 +400,8 @@ impl Repair for WeatherObservationSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_weather_observation.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_mainframe.active() {
-            options.push(prompts[1].clone())
-        }
+        if self.module_weather_observation.repairable() { options.push(prompts[0].clone()) }
+        if self.module_mainframe.repairable()           { options.push(prompts[1].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

@@ -153,6 +153,10 @@ impl BreakSomething for CommsCategory {
 }
 
 impl Repair for CommsCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_antenna.repair_display(),
@@ -161,15 +165,9 @@ impl Repair for CommsCategory {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_antenna.active_modules() < self.section_antenna.total_modules() {
-            options.push(prompts[0].clone())
-        }
-        if self.section_tracking.active_modules() < self.section_tracking.total_modules() {
-            options.push(prompts[1].clone())
-        }
-        if self.section_transponder.active_modules() < self.section_transponder.total_modules() {
-            options.push(prompts[2].clone())
-        }
+        if self.section_antenna.repairable()     { options.push(prompts[0].clone()) }
+        if self.section_tracking.repairable()    { options.push(prompts[1].clone()) }
+        if self.section_transponder.repairable() { options.push(prompts[2].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {

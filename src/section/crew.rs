@@ -147,6 +147,10 @@ impl BreakSomething for CrewModuleSection {
 }
 
 impl Repair for CrewModuleSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_airlock.repair_display(),
@@ -160,30 +164,14 @@ impl Repair for CrewModuleSection {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_airlock.active() {
-            options.push(prompts[0].clone())
-        }
-        if self.module_command_module.active() {
-            options.push(prompts[1].clone())
-        }
-        if self.module_galley.active() {
-            options.push(prompts[2].clone())
-        }
-        if self.module_life_support.active() {
-            options.push(prompts[3].clone())
-        }
-        if self.module_sleeping_pods.active() {
-            options.push(prompts[4].clone())
-        }
-        if self.module_space_suits.active() {
-            options.push(prompts[5].clone())
-        }
-        if self.module_temperature_control.active() {
-            options.push(prompts[6].clone())
-        }
-        if self.module_water_reclamation.active() {
-            options.push(prompts[7].clone())
-        }
+        if self.module_airlock.repairable()             { options.push(prompts[0].clone()) }
+        if self.module_command_module.repairable()      { options.push(prompts[1].clone()) }
+        if self.module_galley.repairable()              { options.push(prompts[2].clone()) }
+        if self.module_life_support.repairable()        { options.push(prompts[3].clone()) }
+        if self.module_sleeping_pods.repairable()       { options.push(prompts[4].clone()) }
+        if self.module_space_suits.repairable()         { options.push(prompts[5].clone()) }
+        if self.module_temperature_control.repairable() { options.push(prompts[6].clone()) }
+        if self.module_water_reclamation.repairable()   { options.push(prompts[7].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

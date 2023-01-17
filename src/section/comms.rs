@@ -112,15 +112,17 @@ impl BreakSomething for AntennaSection {
 }
 
 impl Repair for AntennaSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_antenna.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_antenna.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_antenna.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -228,15 +230,17 @@ impl BreakSomething for TrackingSection {
 }
 
 impl Repair for TrackingSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_tracking.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_tracking.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_tracking.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {
@@ -344,15 +348,17 @@ impl BreakSomething for TransponderSection {
 }
 
 impl Repair for TransponderSection {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.module_transponder.repair_display(),
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.module_transponder.active() {
-            options.push(prompts[0].clone())
-        }
+        if self.module_transponder.repairable() { options.push(prompts[0].clone()) }
 
         let chosen: String = tli_menu("Select module to repair:", options);
         match chosen {

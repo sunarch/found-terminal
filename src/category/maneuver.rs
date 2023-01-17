@@ -142,6 +142,10 @@ impl BreakSomething for ManeuverCategory {
 }
 
 impl Repair for ManeuverCategory {
+    fn repairable(&self) -> bool {
+        self.active_modules() < self.total_modules()
+    }
+
     fn repair(&mut self) {
         let prompts: Vec<String> = vec![
             self.section_basic_maneuver.repair_display(),
@@ -149,12 +153,8 @@ impl Repair for ManeuverCategory {
         ];
 
         let mut options:Vec<String> = vec![];
-        if self.section_basic_maneuver.active_modules() < self.section_basic_maneuver.total_modules() {
-            options.push(prompts[0].clone())
-        }
-        if self.section_maneuver_with_docking.active_modules() < self.section_maneuver_with_docking.total_modules() {
-            options.push(prompts[1].clone())
-        }
+        if self.section_basic_maneuver.repairable()        { options.push(prompts[0].clone()) }
+        if self.section_maneuver_with_docking.repairable() { options.push(prompts[1].clone()) }
 
         let chosen: String = tli_menu("Select section to repair:", options);
         match chosen {
