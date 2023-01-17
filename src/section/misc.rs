@@ -123,7 +123,7 @@ impl BreakSomething for CargoBaySection {
 
 impl Repair for CargoBaySection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {

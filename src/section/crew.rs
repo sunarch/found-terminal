@@ -148,7 +148,7 @@ impl BreakSomething for CrewModuleSection {
 
 impl Repair for CrewModuleSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {

@@ -118,7 +118,7 @@ impl BreakSomething for AstronomySection {
 
 impl Repair for AstronomySection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -255,7 +255,7 @@ impl BreakSomething for GreenhouseSection {
 
 impl Repair for GreenhouseSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -390,7 +390,7 @@ impl BreakSomething for WeatherObservationSection {
 
 impl Repair for WeatherObservationSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {

@@ -113,7 +113,7 @@ impl BreakSomething for AntennaSection {
 
 impl Repair for AntennaSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -231,7 +231,7 @@ impl BreakSomething for TrackingSection {
 
 impl Repair for TrackingSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -349,7 +349,7 @@ impl BreakSomething for TransponderSection {
 
 impl Repair for TransponderSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {

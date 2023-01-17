@@ -118,7 +118,7 @@ impl BreakSomething for FossilPowerSection {
 
 impl Repair for FossilPowerSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -254,7 +254,7 @@ impl BreakSomething for FusionPowerSection {
 
 impl Repair for FusionPowerSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -399,7 +399,7 @@ impl BreakSomething for NuclearPowerSection {
 
 impl Repair for NuclearPowerSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -533,7 +533,7 @@ impl BreakSomething for RadiationPowerSection {
 
 impl Repair for RadiationPowerSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -655,7 +655,7 @@ impl BreakSomething for SolarPowerSection {
 
 impl Repair for SolarPowerSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {

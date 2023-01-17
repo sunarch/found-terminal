@@ -113,7 +113,7 @@ impl BreakSomething for BasicManeuverSection {
 
 impl Repair for BasicManeuverSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
@@ -240,7 +240,7 @@ impl BreakSomething for ManeuverWithDockingSection {
 
 impl Repair for ManeuverWithDockingSection {
     fn repairable(&self) -> bool {
-        self.active_modules() < self.total_modules()
+        self.installed() && self.active_modules() < self.total_modules()
     }
 
     fn repair(&mut self) {
