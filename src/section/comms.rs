@@ -129,12 +129,16 @@ impl Repair for AntennaSection {
             _ if chosen == prompts[0] => { self.module_antenna.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for AntennaSection {
     fn power_down(&mut self) {
         self.module_antenna.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -247,12 +251,16 @@ impl Repair for TrackingSection {
             _ if chosen == prompts[0] => { self.module_tracking.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for TrackingSection {
     fn power_down(&mut self) {
         self.module_tracking.power_down();
+
+        self.update_active_modules();
     }
 }
 

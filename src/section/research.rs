@@ -137,6 +137,8 @@ impl Repair for AstronomySection {
             _ if chosen == prompts[0] => { self.module_mainframe.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -144,6 +146,8 @@ impl PowerDown for AstronomySection {
     fn power_down(&mut self) {
         self.module_astronomy_lab.power_down();
         self.module_mainframe.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -280,6 +284,8 @@ impl Repair for GreenhouseSection {
             _ if chosen == prompts[3] => { self.module_temperature_control.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -289,6 +295,8 @@ impl PowerDown for GreenhouseSection {
         self.module_mainframe.power_down();
         self.module_airlock.power_down();
         self.module_temperature_control.power_down();
+
+        self.update_active_modules();
     }
 }
 
