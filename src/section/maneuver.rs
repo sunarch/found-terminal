@@ -38,15 +38,17 @@ impl ModulesContained for BasicManeuverSection {
 
 impl BasicManeuverSection {
     pub fn new(installed: bool) -> Self {
-        let section = BasicManeuverSection {
+        let mut section = BasicManeuverSection {
             _name: "Basic Maneuver Section",
             _installed: installed,
 
             module_reaction_control_system: maneuver::ReactionControlSystem::new(installed),
 
             _total_modules: BasicManeuverSection::MODULES_CONTAINED,
-            _active_modules: BasicManeuverSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -125,12 +127,16 @@ impl Repair for BasicManeuverSection {
             _ if chosen == prompts[0] => { self.module_reaction_control_system.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for BasicManeuverSection {
     fn power_down(&mut self) {
         self.module_reaction_control_system.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -153,7 +159,7 @@ impl ModulesContained for ManeuverWithDockingSection {
 
 impl ManeuverWithDockingSection {
     pub fn new(installed: bool) -> Self {
-        let section = ManeuverWithDockingSection {
+        let mut section = ManeuverWithDockingSection {
             _name: "Maneuver With Docking Section",
             _installed: installed,
 
@@ -161,8 +167,10 @@ impl ManeuverWithDockingSection {
             module_docking_system: maneuver::DockingSystem::new(installed),
 
             _total_modules: ManeuverWithDockingSection::MODULES_CONTAINED,
-            _active_modules: ManeuverWithDockingSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -249,6 +257,8 @@ impl Repair for ManeuverWithDockingSection {
             _ if chosen == prompts[1] => { self.module_docking_system.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -256,5 +266,7 @@ impl PowerDown for ManeuverWithDockingSection {
     fn power_down(&mut self) {
         self.module_reaction_control_system.power_down();
         self.module_docking_system.power_down();
+
+        self.update_active_modules();
     }
 }

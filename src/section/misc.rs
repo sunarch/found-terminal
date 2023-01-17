@@ -40,7 +40,7 @@ impl ModulesContained for CargoBaySection {
 
 impl CargoBaySection {
     pub fn new(installed: bool) -> Self {
-        let section = CargoBaySection {
+        let mut section = CargoBaySection {
             _name: "Cargo Bay Section",
             _installed: installed,
 
@@ -49,8 +49,10 @@ impl CargoBaySection {
             module_docking_system: maneuver::DockingSystem::new(installed),
 
             _total_modules: CargoBaySection::MODULES_CONTAINED,
-            _active_modules: CargoBaySection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -145,6 +147,8 @@ impl Repair for CargoBaySection {
             _ if chosen == prompts[2] => { self.module_docking_system.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -153,5 +157,7 @@ impl PowerDown for CargoBaySection {
         self.module_airlock.power_down();
         self.module_cargo_bay.power_down();
         self.module_docking_system.power_down();
+
+        self.update_active_modules();
     }
 }

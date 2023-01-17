@@ -38,15 +38,17 @@ impl ModulesContained for AntennaSection {
 
 impl AntennaSection {
     pub fn new(installed: bool) -> Self {
-        let section = AntennaSection {
+        let mut section = AntennaSection {
             _name: "Antenna Section",
             _installed: installed,
 
             module_antenna: comms::Antenna::new(installed),
 
             _total_modules: AntennaSection::MODULES_CONTAINED,
-            _active_modules: AntennaSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -152,15 +154,17 @@ impl ModulesContained for TrackingSection {
 
 impl TrackingSection {
     pub fn new(installed: bool) -> Self {
-        let section = TrackingSection {
+        let mut section = TrackingSection {
             _name: "Tracking Section",
             _installed: installed,
 
             module_tracking: comms::Tracking::new(installed),
 
             _total_modules: TrackingSection::MODULES_CONTAINED,
-            _active_modules: TrackingSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -266,15 +270,17 @@ impl ModulesContained for TransponderSection {
 
 impl TransponderSection {
     pub fn new(installed: bool) -> Self {
-        let section = TransponderSection {
+        let mut section = TransponderSection {
             _name: "Transponder Section",
             _installed: installed,
 
             module_transponder: comms::Transponder::new(installed),
 
             _total_modules: TransponderSection::MODULES_CONTAINED,
-            _active_modules: TransponderSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -353,11 +359,15 @@ impl Repair for TransponderSection {
             _ if chosen == prompts[0] => { self.module_transponder.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for TransponderSection {
     fn power_down(&mut self) {
         self.module_transponder.power_down();
+
+        self.update_active_modules();
     }
 }

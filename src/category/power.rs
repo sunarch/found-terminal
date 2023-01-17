@@ -58,12 +58,21 @@ impl PowerCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_fossil_power.total_modules() +
-            section_group.section_fusion_power.total_modules() +
-            section_group.section_nuclear_power.total_modules() +
-            section_group.section_radiation_power.total_modules() +
-            section_group.section_solar_power.total_modules();
+        if section_group.section_fossil_power.installed() {
+            section_group._total_modules += section_group.section_fossil_power.total_modules();
+        }
+        if section_group.section_fusion_power.installed() {
+            section_group._total_modules += section_group.section_fusion_power.total_modules();
+        }
+        if section_group.section_nuclear_power.installed() {
+            section_group._total_modules += section_group.section_nuclear_power.total_modules();
+        }
+        if section_group.section_radiation_power.installed() {
+            section_group._total_modules += section_group.section_radiation_power.total_modules();
+        }
+        if section_group.section_solar_power.installed() {
+            section_group._total_modules += section_group.section_solar_power.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -198,6 +207,8 @@ impl Repair for PowerCategory {
             _ if chosen == prompts[4] => { self.section_solar_power.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

@@ -50,8 +50,9 @@ impl CrewCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_crew_module.total_modules();
+        if section_group.section_crew_module.installed() {
+            section_group._total_modules += section_group.section_crew_module.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -146,6 +147,8 @@ impl Repair for CrewCategory {
             _ if chosen == prompts[0] => { self.section_crew_module.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

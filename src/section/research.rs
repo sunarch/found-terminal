@@ -39,7 +39,7 @@ impl ModulesContained for AstronomySection {
 
 impl AstronomySection {
     pub fn new(installed: bool) -> Self {
-        let section = AstronomySection {
+        let mut section = AstronomySection {
             _name: "Astronomy Section",
             _installed: installed,
 
@@ -47,8 +47,10 @@ impl AstronomySection {
             module_mainframe: research::Mainframe::new(installed),
 
             _total_modules: AstronomySection::MODULES_CONTAINED,
-            _active_modules: AstronomySection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -166,7 +168,7 @@ impl ModulesContained for GreenhouseSection {
 
 impl GreenhouseSection {
     pub fn new(installed: bool) -> Self {
-        let section = GreenhouseSection {
+        let mut section = GreenhouseSection {
             _name: "Greenhouse Section",
             _installed: installed,
 
@@ -176,8 +178,10 @@ impl GreenhouseSection {
             module_temperature_control: misc::TemperatureControl::new(installed),
 
             _total_modules: GreenhouseSection::MODULES_CONTAINED,
-            _active_modules: GreenhouseSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -311,7 +315,7 @@ impl ModulesContained for WeatherObservationSection {
 
 impl WeatherObservationSection {
     pub fn new(installed: bool) -> Self {
-        let section = WeatherObservationSection {
+        let mut section = WeatherObservationSection {
             _name: "Weather Observation Section",
             _installed: installed,
 
@@ -319,8 +323,10 @@ impl WeatherObservationSection {
             module_mainframe: research::Mainframe::new(installed),
 
             _total_modules: WeatherObservationSection::MODULES_CONTAINED,
-            _active_modules: WeatherObservationSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -407,6 +413,8 @@ impl Repair for WeatherObservationSection {
             _ if chosen == prompts[1] => { self.module_mainframe.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -414,5 +422,7 @@ impl PowerDown for WeatherObservationSection {
     fn power_down(&mut self) {
         self.module_weather_observation.power_down();
         self.module_mainframe.power_down();
+
+        self.update_active_modules();
     }
 }

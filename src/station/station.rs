@@ -212,6 +212,8 @@ impl Station {
             _ => unreachable!(),
         }
 
+        self.update_active_modules();
+
         match broken_module {
             Ok(v) => {
                 self.update_active_modules();
@@ -267,6 +269,8 @@ impl Repair for Station {
             _ if chosen == prompts[5] => { self.sections_research.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -278,5 +282,7 @@ impl PowerDown for Station {
         self.sections_misc.power_down();
         self.sections_power.power_down();
         self.sections_research.power_down();
+
+        self.update_active_modules();
     }
 }

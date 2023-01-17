@@ -54,10 +54,15 @@ impl ResearchCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_astronomy.total_modules() +
-            section_group.section_greenhouse.total_modules() +
-            section_group.section_weather_observation.total_modules();
+        if section_group.section_astronomy.installed() {
+            section_group._total_modules += section_group.section_astronomy.total_modules();
+        }
+        if section_group.section_greenhouse.installed() {
+            section_group._total_modules += section_group.section_greenhouse.total_modules();
+        }
+        if section_group.section_weather_observation.installed() {
+            section_group._total_modules += section_group.section_weather_observation.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -172,6 +177,8 @@ impl Repair for ResearchCategory {
             _ if chosen == prompts[2] => { self.section_weather_observation.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

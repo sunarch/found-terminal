@@ -55,10 +55,15 @@ impl CommsCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_antenna.total_modules() +
-            section_group.section_tracking.total_modules() +
-            section_group.section_transponder.total_modules();
+        if section_group.section_antenna.installed() {
+            section_group._total_modules += section_group.section_antenna.total_modules();
+        }
+        if section_group.section_tracking.installed() {
+            section_group._total_modules += section_group.section_tracking.total_modules();
+        }
+        if section_group.section_transponder.installed() {
+            section_group._total_modules += section_group.section_transponder.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -173,6 +178,8 @@ impl Repair for CommsCategory {
             _ if chosen == prompts[2] => { self.section_transponder.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

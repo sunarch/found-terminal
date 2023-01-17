@@ -50,8 +50,9 @@ impl MiscCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_cargo_bay.total_modules();
+        if section_group.section_cargo_bay.installed() {
+            section_group._total_modules += section_group.section_cargo_bay.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -146,6 +147,8 @@ impl Repair for MiscCategory {
             _ if chosen == prompts[0] => { self.section_cargo_bay.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

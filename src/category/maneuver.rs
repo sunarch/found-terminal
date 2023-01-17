@@ -52,9 +52,12 @@ impl ManeuverCategory {
             _active_modules: 0,
         };
 
-        section_group._total_modules =
-            section_group.section_basic_maneuver.total_modules() +
-            section_group.section_maneuver_with_docking.total_modules();
+        if section_group.section_basic_maneuver.installed() {
+            section_group._total_modules += section_group.section_basic_maneuver.total_modules();
+        }
+        if section_group.section_maneuver_with_docking.installed() {
+            section_group._total_modules += section_group.section_maneuver_with_docking.total_modules();
+        }
 
         section_group.update_active_modules();
 
@@ -159,6 +162,8 @@ impl Repair for ManeuverCategory {
             _ if chosen == prompts[1] => { self.section_maneuver_with_docking.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 

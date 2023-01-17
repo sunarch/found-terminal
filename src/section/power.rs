@@ -39,7 +39,7 @@ impl ModulesContained for FossilPowerSection {
 
 impl FossilPowerSection {
     pub fn new(installed: bool) -> Self {
-        let section = FossilPowerSection {
+        let mut section = FossilPowerSection {
             _name: "Fossil Power Section",
             _installed: installed,
 
@@ -47,8 +47,10 @@ impl FossilPowerSection {
             module_fossil_fuel_storage: power::FossilFuelStorage::new(installed),
 
             _total_modules: FossilPowerSection::MODULES_CONTAINED,
-            _active_modules: FossilPowerSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -135,6 +137,8 @@ impl Repair for FossilPowerSection {
             _ if chosen == prompts[1] => { self.module_fossil_fuel_storage.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -142,6 +146,8 @@ impl PowerDown for FossilPowerSection {
     fn power_down(&mut self) {
         self.module_combustion_turbine_generator.power_down();
         self.module_fossil_fuel_storage.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -165,7 +171,7 @@ impl ModulesContained for FusionPowerSection {
 
 impl FusionPowerSection {
     pub fn new(installed: bool) -> Self {
-        let section = FusionPowerSection {
+        let mut section = FusionPowerSection {
             _name: "Fusion Power Section",
             _installed: installed,
 
@@ -174,8 +180,10 @@ impl FusionPowerSection {
             module_fusion_component_storage: power::FusionComponentStorage::new(installed),
 
             _total_modules: FusionPowerSection::MODULES_CONTAINED,
-            _active_modules: FusionPowerSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -270,6 +278,8 @@ impl Repair for FusionPowerSection {
             _ if chosen == prompts[2] => { self.module_fusion_component_storage.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -278,6 +288,8 @@ impl PowerDown for FusionPowerSection {
         self.module_fusion_reactor.power_down();
         self.module_steam_turbine_generator.power_down();
         self.module_fusion_component_storage.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -302,7 +314,7 @@ impl ModulesContained for NuclearPowerSection {
 
 impl NuclearPowerSection {
     pub fn new(installed: bool) -> Self {
-        let section = NuclearPowerSection {
+        let mut section = NuclearPowerSection {
             _name: "Nuclear Power Section",
             _installed: installed,
 
@@ -312,8 +324,10 @@ impl NuclearPowerSection {
             module_nuclear_waste_storage: power::NuclearWasteStorage::new(installed),
 
             _total_modules: NuclearPowerSection::MODULES_CONTAINED,
-            _active_modules: NuclearPowerSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -416,6 +430,8 @@ impl Repair for NuclearPowerSection {
             _ if chosen == prompts[3] => { self.module_nuclear_waste_storage.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -425,6 +441,8 @@ impl PowerDown for NuclearPowerSection {
         self.module_nuclear_reactor.power_down();
         self.module_steam_turbine_generator.power_down();
         self.module_nuclear_waste_storage.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -446,15 +464,17 @@ impl ModulesContained for RadiationPowerSection {
 
 impl RadiationPowerSection {
     pub fn new(installed: bool) -> Self {
-        let section = RadiationPowerSection {
+        let mut section = RadiationPowerSection {
             _name: "Radiation Power Section",
             _installed: installed,
 
             module_radiation_mirrors: power::RadiationMirrors::new(installed),
 
             _total_modules: RadiationPowerSection::MODULES_CONTAINED,
-            _active_modules: RadiationPowerSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -533,12 +553,16 @@ impl Repair for RadiationPowerSection {
             _ if chosen == prompts[0] => { self.module_radiation_mirrors.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for RadiationPowerSection {
     fn power_down(&mut self) {
         self.module_radiation_mirrors.power_down();
+
+        self.update_active_modules();
     }
 }
 
@@ -560,15 +584,17 @@ impl ModulesContained for SolarPowerSection {
 
 impl SolarPowerSection {
     pub fn new(installed: bool) -> Self {
-        let section = SolarPowerSection {
+        let mut section = SolarPowerSection {
             _name: "Solar Power Section",
             _installed: installed,
 
             module_solar_panel: power::SolarPanels::new(installed),
 
             _total_modules: SolarPowerSection::MODULES_CONTAINED,
-            _active_modules: SolarPowerSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -647,11 +673,15 @@ impl Repair for SolarPowerSection {
             _ if chosen == prompts[0] => { self.module_solar_panel.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
 impl PowerDown for SolarPowerSection {
     fn power_down(&mut self) {
         self.module_solar_panel.power_down();
+
+        self.update_active_modules();
     }
 }

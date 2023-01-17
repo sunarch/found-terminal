@@ -45,7 +45,7 @@ impl ModulesContained for CrewModuleSection {
 
 impl CrewModuleSection {
     pub fn new(installed: bool) -> Self {
-        let section = CrewModuleSection {
+        let mut section = CrewModuleSection {
             _name: "Crew Module Section",
             _installed: installed,
 
@@ -59,8 +59,10 @@ impl CrewModuleSection {
             module_water_reclamation: crew::WaterReclamation::new(installed),
 
             _total_modules: CrewModuleSection::MODULES_CONTAINED,
-            _active_modules: CrewModuleSection::MODULES_CONTAINED,
+            _active_modules: 0,
         };
+
+        section.update_active_modules();
 
         return section;
     }
@@ -195,6 +197,8 @@ impl Repair for CrewModuleSection {
             _ if chosen == prompts[7] => { self.module_water_reclamation.repair(); },
             _ => unreachable!()
         }
+
+        self.update_active_modules();
     }
 }
 
@@ -208,5 +212,7 @@ impl PowerDown for CrewModuleSection {
         self.module_space_suits.power_down();
         self.module_temperature_control.power_down();
         self.module_water_reclamation.power_down();
+
+        self.update_active_modules();
     }
 }
