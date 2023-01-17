@@ -124,7 +124,11 @@ impl Repair for AntennaSection {
         let mut options:Vec<String> = vec![];
         if self.module_antenna.repairable() { options.push(prompts[0].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_antenna.repair(); },
             _ => unreachable!()
@@ -246,7 +250,11 @@ impl Repair for TrackingSection {
         let mut options:Vec<String> = vec![];
         if self.module_tracking.repairable() { options.push(prompts[0].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_tracking.repair(); },
             _ => unreachable!()
@@ -368,7 +376,11 @@ impl Repair for TransponderSection {
         let mut options:Vec<String> = vec![];
         if self.module_transponder.repairable() { options.push(prompts[0].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_transponder.repair(); },
             _ => unreachable!()

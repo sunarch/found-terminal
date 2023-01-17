@@ -60,7 +60,11 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
     ];
 
     loop {
-        let chosen: String = tli_menu("MENU", prompts.clone());
+        let chosen: String;
+        match tli_menu("MENU", prompts.clone()) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { continue; }
+        }
         match chosen {
             _ if chosen == prompts[0] => {
                 println!("{}", station.status(0, true, true))

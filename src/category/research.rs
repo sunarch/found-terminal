@@ -168,7 +168,11 @@ impl Repair for ResearchCategory {
         if self.section_greenhouse.repairable()          { options.push(prompts[1].clone()) }
         if self.section_weather_observation.repairable() { options.push(prompts[2].clone()) }
 
-        let chosen: String = tli_menu("Select section to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.section_astronomy.repair(); },
             _ if chosen == prompts[1] => { self.section_greenhouse.repair(); },

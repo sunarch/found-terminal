@@ -138,7 +138,11 @@ impl Repair for CargoBaySection {
         if self.module_cargo_bay.repairable()      { options.push(prompts[1].clone()) }
         if self.module_docking_system.repairable() { options.push(prompts[2].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_airlock.repair(); },
             _ if chosen == prompts[1] => { self.module_cargo_bay.repair(); },

@@ -156,7 +156,11 @@ impl Repair for ManeuverCategory {
         if self.section_basic_maneuver.repairable()        { options.push(prompts[0].clone()) }
         if self.section_maneuver_with_docking.repairable() { options.push(prompts[1].clone()) }
 
-        let chosen: String = tli_menu("Select section to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.section_basic_maneuver.repair(); },
             _ if chosen == prompts[1] => { self.section_maneuver_with_docking.repair(); },

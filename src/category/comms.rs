@@ -169,7 +169,11 @@ impl Repair for CommsCategory {
         if self.section_tracking.repairable()    { options.push(prompts[1].clone()) }
         if self.section_transponder.repairable() { options.push(prompts[2].clone()) }
 
-        let chosen: String = tli_menu("Select section to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.section_antenna.repair(); },
             _ if chosen == prompts[1] => { self.section_tracking.repair(); },

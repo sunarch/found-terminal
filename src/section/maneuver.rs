@@ -124,7 +124,11 @@ impl Repair for BasicManeuverSection {
         let mut options:Vec<String> = vec![];
         if self.module_reaction_control_system.repairable() { options.push(prompts[0].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_reaction_control_system.repair(); },
             _ => unreachable!()
@@ -253,7 +257,11 @@ impl Repair for ManeuverWithDockingSection {
         if self.module_reaction_control_system.repairable() { options.push(prompts[0].clone()) }
         if self.module_docking_system.repairable()          { options.push(prompts[1].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_reaction_control_system.repair(); },
             _ if chosen == prompts[1] => { self.module_docking_system.repair(); },

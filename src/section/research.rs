@@ -131,7 +131,11 @@ impl Repair for AstronomySection {
         if self.module_astronomy_lab.repairable() { options.push(prompts[0].clone()) }
         if self.module_mainframe.repairable()     { options.push(prompts[1].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_astronomy_lab.repair(); },
             _ if chosen == prompts[0] => { self.module_mainframe.repair(); },
@@ -276,7 +280,11 @@ impl Repair for GreenhouseSection {
         if self.module_airlock.repairable()             { options.push(prompts[2].clone()) }
         if self.module_temperature_control.repairable() { options.push(prompts[3].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_greenhouse.repair(); },
             _ if chosen == prompts[1] => { self.module_mainframe.repair(); },
@@ -411,7 +419,11 @@ impl Repair for WeatherObservationSection {
         if self.module_weather_observation.repairable() { options.push(prompts[0].clone()) }
         if self.module_mainframe.repairable()           { options.push(prompts[1].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_weather_observation.repair(); },
             _ if chosen == prompts[1] => { self.module_mainframe.repair(); },

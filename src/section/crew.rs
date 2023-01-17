@@ -173,7 +173,11 @@ impl Repair for CrewModuleSection {
         if self.module_temperature_control.repairable() { options.push(prompts[6].clone()) }
         if self.module_water_reclamation.repairable()   { options.push(prompts[7].clone()) }
 
-        let chosen: String = tli_menu("Select module to repair:", options);
+        let chosen: String;
+        match tli_menu("Select module to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.module_airlock.repair(); },
             _ if chosen == prompts[1] => { self.module_command_module.repair(); },

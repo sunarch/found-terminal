@@ -144,7 +144,11 @@ impl Repair for CrewCategory {
         let mut options:Vec<String> = vec![];
         if self.section_crew_module.repairable() { options.push(prompts[0].clone()) }
 
-        let chosen: String = tli_menu("Select section to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.section_crew_module.repair(); },
             _ => unreachable!()

@@ -255,7 +255,11 @@ impl Repair for Station {
         if self.sections_power.repairable()    { options.push(prompts[4].clone()) }
         if self.sections_research.repairable() { options.push(prompts[5].clone()) }
 
-        let chosen: String = tli_menu("Select section category to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section category to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.sections_comm.repair(); },
             _ if chosen == prompts[1] => { self.sections_crew.repair(); },

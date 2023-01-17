@@ -192,7 +192,11 @@ impl Repair for PowerCategory {
         if self.section_radiation_power.repairable() { options.push(prompts[3].clone()) }
         if self.section_solar_power.repairable()     { options.push(prompts[4].clone()) }
 
-        let chosen: String = tli_menu("Select section to repair:", options);
+        let chosen: String;
+        match tli_menu("Select section to repair:", options) {
+            Ok(v) => { chosen = v; },
+            Err(_) => { return; }
+        }
         match chosen {
             _ if chosen == prompts[0] => { self.section_fossil_power.repair(); },
             _ if chosen == prompts[1] => { self.section_fusion_power.repair(); },
