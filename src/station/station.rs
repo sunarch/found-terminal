@@ -176,12 +176,16 @@ impl Station {
             vec![
                 String::from(":name"),
                 String::from(":version"),
-                String::from(":mission-day")
+                String::from(":mission-day"),
+                String::from(":total-modules"),
+                String::from(":active-modules")
             ],
             vec![
                 format!("\"{}\"", self.name()),
                 format!("{}", self.version),
-                format!("{}", self.mission_day)
+                format!("{}", self.mission_day),
+                format!("{}", self.total_modules()),
+                format!("{}", self.active_modules())
             ],
             show_inner,
             String::from(":categories"),
