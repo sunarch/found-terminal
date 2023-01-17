@@ -7,13 +7,15 @@
 // Original version of this file released by Tristram Oaten under CC0 1.0 Universal
 // https://github.com/0atman/noboilerplate -> 8 | Building a space station in Rust
 
+use std::string::ToString;
 // dependencies
-use inquire::{Select, Text};
+use inquire::Text;
 
 // project
 use found_terminal::station::station::Station;
 use found_terminal::station::components::{Repair, PowerDown};
 use found_terminal::journal::journal::Journal;
+use found_terminal::terminalisp::menu::tli_menu;
 
 
 fn main() {
@@ -49,37 +51,38 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
         return false;
     }
 
+    let prompts: Vec<String> = vec![
+        "STATUS".to_string(),
+        "REPAIR".to_string(),
+        "SCIENCE".to_string(),
+        "NEW DAY".to_string(),
+        "POWER DOWN".to_string()
+    ];
+
     loop {
-        match menu(&[
-            "STATUS".into(),
-            "REPAIR".into(),
-            "SCIENCE".into(),
-            "NEW DAY".into(),
-            "POWER DOWN".into(),
-        ]).as_str() {
-            "STATUS" => { println!("{}", station.status(0, true, true)) },
-            "REPAIR" => {
+        let chosen: String = tli_menu("MENU", prompts.clone());
+        match chosen {
+            _ if chosen == prompts[0] => {
+                println!("{}", station.status(0, true, true))
+            },
+            _ if chosen == prompts[1] => {
                 station.repair();
                 break;
             },
-            "SCIENCE" => {
+            _ if chosen == prompts[2] => {
                 station.science();
                 break;
             },
-            "NEW DAY" => { break; },
-            "POWER DOWN" => {
+            _ if chosen == prompts[3] => {
+                break;
+            },
+            _ if chosen == prompts[4] => {
                 station.power_down();
                 break;
             },
-            &_ => unreachable!(),
+            _ => unreachable!(),
         }
     }
 
     return true;
-}
-
-fn menu(items: &[String]) -> String {
-    Select::new("MENU", items.to_vec())
-        .prompt()
-        .unwrap()
 }
