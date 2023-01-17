@@ -48,7 +48,7 @@ pub trait BreakModule: Active {
 
 pub trait RepairModule: Active {
     fn repairable(&self) -> bool {
-        self.active()
+        !self.active()
     }
 
     fn repair(&mut self) -> String {
