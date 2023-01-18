@@ -7,18 +7,16 @@
 // Original version of this file released by Tristram Oaten under CC0 1.0 Universal
 // https://github.com/0atman/noboilerplate -> 8 | Building a space station in Rust
 
-#![allow(dead_code)]
-
-use strum_macros::Display;
-use strum_macros::EnumString;
+// library
 use std::str::FromStr;
-use inquire::Text;
-use rand_derive2::RandGen;
-use rand::random;
-use rand::Rng;
-use rand::thread_rng;
-use inquire::Select;
 
+// dependencies
+use inquire::{Select, Text};
+use rand::{random, Rng, thread_rng};
+use rand_derive2::RandGen;
+use strum_macros::{Display, EnumString};
+
+// project
 use found_terminal::journal::journal::Journal;
 
 
