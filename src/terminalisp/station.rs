@@ -83,10 +83,6 @@ pub fn station_status(station: &Station, show_details: bool, show_sections: bool
 }
  */
 
-pub fn menu_error(error: String) {
-    println!("(menu-error {})", error);
-}
-
 pub fn sections_ok() {
     println!("(sections {})", symbols::OK);
 }
