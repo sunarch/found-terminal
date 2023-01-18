@@ -11,7 +11,7 @@
 use std::str::FromStr;
 
 // dependencies
-use inquire::{Select, Text};
+use inquire::Select;
 use rand::{random, Rng, thread_rng};
 use rand_derive2::RandGen;
 use strum_macros::{Display, EnumString};
@@ -143,10 +143,13 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
 
     println!("{days_left} UNTIL FINAL TRANSMISSION");
 
-    journal.add_entry(Text::new("Enter your log:")
-        .prompt()
-        .unwrap()
-    );
+    let journal_prompt = String::from("Enter your log:");
+    loop {
+        match journal.prompt_entry(journal_prompt.clone()) {
+            Ok(_) => { break; }
+            Err(_) => {}
+        }
+    }
 
     match menu(&[
         "NEW DAY".into(),
@@ -176,19 +179,33 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
 }
 
 fn menu(items: &[String]) -> String {
-    Select::new("MENU", items.to_vec())
-        .prompt()
-        .unwrap()
+    loop {
+        match Select::new("MENU", items.to_vec()).prompt() {
+            Ok(v) => { return v; }
+            Err(_) => { continue; }
+        }
+    }
 }
 
 fn repair(broken_section: String, station: &mut Station) {
     let section = SectionName::from_str(
         broken_section.as_str()
-    ).unwrap();
+    );
+
+    let section_name: SectionName;
+    match section {
+        Ok(v) => {
+            section_name = v;
+        }
+        Err(_) => {
+            println!("Invalid section to repair.");
+            return;
+        }
+    }
 
     let broken_index = station.sections
         .iter()
-        .position(|m| m.name == section)
+        .position(|m| m.name == section_name)
         .expect("Section not found.");
 
     station.sections[broken_index].active = true;
