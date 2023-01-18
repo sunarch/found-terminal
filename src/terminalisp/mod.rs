@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 pub mod station;
+pub mod journal;
 pub mod menu;
 
 pub mod symbols;

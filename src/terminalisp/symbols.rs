@@ -5,5 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // status
-pub const OK: &str = "'ok";
+pub const ERROR: &str = "'error";
 pub const INACTIVE: &str = "'inactive";
+pub const OK: &str = "'ok";
+pub const SAVED: &str = "'saved";

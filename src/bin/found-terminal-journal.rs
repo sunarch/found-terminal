@@ -7,10 +7,6 @@
 // Original version of this file released by Tristram Oaten under CC0 1.0 Universal
 // https://github.com/0atman/noboilerplate -> 8 | Building a space station in Rust
 
-use std::string::ToString;
-// dependencies
-use inquire::Text;
-
 // project
 use found_terminal::station::station::Station;
 use found_terminal::station::components::{Repair, PowerDown};
@@ -40,10 +36,12 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
     journal.add_entry(format!("Mission Day {}", station.mission_day));
 
     let journal_prompt = format!("Log for Mission Day {}:", station.mission_day);
-    journal.add_entry(Text::new(journal_prompt.as_str())
-        .prompt()
-        .unwrap()
-    );
+    loop {
+        match journal.prompt_entry(journal_prompt.clone()) {
+            Ok(_) => { break; }
+            Err(_) => {}
+        }
+    }
 
     station.new_day();
 

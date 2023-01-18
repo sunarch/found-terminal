@@ -4,6 +4,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+// dependencies
+use inquire::Text;
+
+// project
+use crate::terminalisp::journal::*;
+
+
 pub struct Journal {
     header: String,
     title: String,
@@ -16,6 +23,20 @@ impl Journal {
             header,
             title,
             log: vec![],
+        }
+    }
+
+    pub fn prompt_entry(&mut self, prompt: String) -> Result<String, String> {
+        match Text::new(prompt.as_str()).prompt() {
+            Ok(v) =>  {
+                self.add_entry(v);
+                journal_entry_status_saved();
+                Ok(String::from("Journal entry success."))
+            },
+            Err(e) => {
+                journal_entry_status_error(e.to_string());
+                Err(String::from("Journal entry error."))
+            }
         }
     }
 
