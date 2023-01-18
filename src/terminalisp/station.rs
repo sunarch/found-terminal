@@ -50,39 +50,6 @@ pub fn status(header: String,
     return result;
 }
 
-/*
-pub fn station_status(station: &Station, show_details: bool, show_sections: bool) {
-    print!("(station");
-
-    if show_details {
-        println!();
-        println!("    {:<12} \"{}\"", ":name", &station.name());
-        println!("    {:<12} {}", ":version", &station.version);
-    }
-
-    if show_details || show_sections {
-        print!("   ");
-    }
-    print!(" {:<12} {}", ":mission-day", &station.mission_day);
-
-    if show_sections {
-        println!();
-        println!("    {:<12} (", ":sections");
-        for section in &station.sections {
-            let status = if section.active { symbols::OK } else { symbols::INACTIVE };
-            let section_name = format!("\"{}\"", section.name);
-            println!("        (section :name {:<18} :status {})", section_name, status);
-        }
-        println!("    )");
-    }
-
-    if show_details && !show_sections {
-        println!();
-    }
-    println!(")");
-}
- */
-
 pub fn sections_ok() {
     println!("(sections {})", symbols::OK);
 }
