@@ -18,6 +18,8 @@ use strum_macros::{Display, EnumString};
 
 // project
 use found_terminal::journal::journal::Journal;
+use found_terminal::terminalisp::station as tl_station;
+use found_terminal::terminalisp::original as tl_original;
 
 
 #[derive(RandGen)]
@@ -77,24 +79,36 @@ impl Station {
         let mut broken_section = &mut self.sections[broken_index];
         if broken_section.active {
             broken_section.active = false;
-            println!("(SECTION-FAILURE {})", &broken_section.name);
+            tl_station::section_failure(broken_section.name.to_string())
         } else {
-            println!("(SECTIONS OK)");
+            tl_original::section_failure_none();
         }
     }
 
     fn status(&self) {
-        println!("{:-^80}", " [ BEGIN: STATION STATUS ] ");
-        println!("{}", &self.name_display());
-        println!("{:-^10} {} {:-^10}", "", "[ Sections ]", "");
+        let mut section_names: Vec<String> = vec![];
+        let mut section_statuses: Vec<bool> = vec![];
+
         for section in &self.sections {
-            let active = if section.active {"   OK   "} else {"INACTIVE"};
-            println!("[{}] {}", active, section.name);
+            section_names.push(section.name.to_string());
+            section_statuses.push(section.active);
         }
-        println!("{:-^80}", " [ END: STATION STATUS ] ");
+
+        tl_original::station_status(
+            vec![
+                String::from("name"),
+                String::from("version"),
+            ],
+            vec![
+                format!("\"{}\"", self.name),
+                format!("{}", self.version),
+            ],
+            section_names,
+            section_statuses
+        );
     }
 
-    fn name_display(&self) -> String {
+    fn log_header(&self) -> String {
         return format!("Station \"{}\" v{}", &self.name, &self.version);
     }
 }
@@ -116,12 +130,12 @@ enum SectionName {
 
 fn main() {
     let mut station = Station::new();
-    let station_name_display = station.name_display();
-    println!("{}", station_name_display);
+
+    tl_original::station_header(station.name.to_string(), station.version);
 
     let mut journal = Journal::new(
         "STATION LOG".to_string(),
-        station_name_display
+        station.log_header()
     );
 
     loop {
@@ -137,11 +151,11 @@ fn day(station: &mut Station, journal: &mut Journal) -> bool {
     let days_left = station.days_left();
 
     if days_left < 1 {
-        println!("(END-TRANSMISSION)");
+        tl_station::end_transmission();
         return false;
     }
 
-    println!("{days_left} UNTIL FINAL TRANSMISSION");
+    tl_station::until_final_transmission(days_left as u16);
 
     let journal_prompt = String::from("Enter your log:");
     loop {
@@ -198,7 +212,7 @@ fn repair(broken_section: String, station: &mut Station) {
             section_name = v;
         }
         Err(_) => {
-            println!("Invalid section to repair.");
+            tl_original::section_to_repair_invalid();
             return;
         }
     }
@@ -206,7 +220,7 @@ fn repair(broken_section: String, station: &mut Station) {
     let broken_index = station.sections
         .iter()
         .position(|m| m.name == section_name)
-        .expect("Section not found.");
+        .expect("(section 'not-found)");
 
     station.sections[broken_index].active = true;
 }

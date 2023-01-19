@@ -7,5 +7,9 @@
 // status
 pub const ERROR: &str = "'error";
 pub const INACTIVE: &str = "'inactive";
+pub const INVALID: &str = "'invalid";
 pub const OK: &str = "'ok";
 pub const SAVED: &str = "'saved";
+
+// selector
+pub const NONE: &str = "'none";
