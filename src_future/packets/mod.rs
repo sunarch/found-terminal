@@ -2,10 +2,4 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pub mod station;
-pub mod category;
-pub mod section;
-pub mod module;
-
-pub mod journal;
-pub mod terminalisp;
+pub mod ping;
